@@ -85,4 +85,8 @@ jobs:
         password: ${{secrets.unicom_password}}
         appid: ${{secrets.unicom_appid}}
       run: node index.js unicom --user=${user} --password=${password} --appid=${appid}
-
+#workflows日志自动清理
+    - name: Delete workflow runs
+      uses: GitRML/delete-workflow-runs@main
+      with:
+        retain_days: '7'
