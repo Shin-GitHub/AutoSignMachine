@@ -211,7 +211,6 @@ var start = async (params) => {
   }, {
     isCircle: true,
     intervalTime: 1 * 3600,
-    startTime: 1,
     ...taskOption
   })
 }
