@@ -344,7 +344,7 @@ var producGame = {
         let params = {
             'methodType': 'queryTaskCenter',
             'deviceType': 'Android',
-            'clientVersion': '8.0100'
+            'clientVersion': '8.0100',
         }
         let { data, config } = await axios.request({
             headers: {
@@ -388,11 +388,6 @@ var producGame = {
                     jar,
                     game
                 })
-                await producGame.timeTaskQuery(axios, options)
-                await producGame.gameFlowGet(axios, {
-                    ...options,
-                    gameId: game.gameId
-                })
             })
         }
 
@@ -403,6 +398,7 @@ var producGame = {
         games = games.filter(g => g.state === '1')
         console.log('剩余未领取game', games.length)
         for (let game of games) {
+            console.log(game.name)
             await new Promise((resolve, reject) => setTimeout(resolve, (Math.floor(Math.random() * 10) + 15) * 1000))
             await producGame.gameFlowGet(axios, {
                 ...options,
@@ -436,11 +432,6 @@ var producGame = {
                         ...game,
                         gameCode: game.resource_id
                     }
-                })
-                await producGame.getTaskList(axios, options)
-                await producGame.gameIntegralGet(axios, {
-                    ...options,
-                    taskCenterId: game.id
                 })
             })
         }
@@ -555,14 +546,10 @@ var producGame = {
         }
     },
     gameBox: async (axios, options) => {
-        let { games: v_games } = await producGame.getTaskList(axios, options)
-        let box_task = v_games.find(d => d.id === '98' && d.reachState !== '2')
-        if (box_task) {
-            await producGame.gameIntegralGet(axios, {
-                ...options,
-                taskCenterId: box_task.id
-            })
-        }
+        await producGame.gameIntegralGet(axios, {
+            ...options,
+            taskCenterId: 98
+        })
     },
     watch3TimesVideoQuery: async (request, options) => {
         let params = {
@@ -614,19 +601,19 @@ var producGame = {
             console.log('领取视频任务奖励,剩余', n, '次')
             let { jar } = await producGame.watch3TimesVideoQuery(axios, options)
             let i = 1
-            while (i <= n) {
+            do {
                 await producGame.watch3TimesVideo(axios, {
                     ...options,
                     jar
                 })
-                await new Promise((resolve, reject) => setTimeout(resolve, (Math.floor(Math.random() * 5) + 2) * 200))
-                await producGame.getTaskList(axios, options)
-                await producGame.queryIntegral(axios, {
-                    ...options,
-                    taskCenterId: video_task.id
-                })
                 ++i
-            }
+            } while (i <= n)
+
+            await producGame.queryIntegral(axios, {
+                ...options,
+                taskCenterId: video_task.id
+            })
+
         }
 
         let { games } = await producGame.getTaskList(axios, options)
