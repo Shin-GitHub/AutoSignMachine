@@ -19,6 +19,7 @@ jobs:
       ENABLE_BILIBILI: ${{secrets.ENABLE_BILIBILI}}
       ENABLE_IQIYI: ${{secrets.ENABLE_IQIYI}}
       ENABLE_UNICOM: ${{secrets.ENABLE_UNICOM}}
+	  ENABLE_UNICOM2: ${{secrets.ENABLE_UNICOM2}}
     
     runs-on: ubuntu-latest
 
@@ -85,8 +86,12 @@ jobs:
         password: ${{secrets.unicom_password}}
         appid: ${{secrets.unicom_appid}}
       run: node index.js unicom --user=${user} --password=${password} --appid=${appid}
-#workflows日志自动清理
-    - name: Delete workflow runs
-      uses: GitRML/delete-workflow-runs@main
-      with:
-        retain_days: '7'
+       
+    # 运行 unicom2 签到任务
+    - name: Run unicom daily task
+      if: ${{ env.ENABLE_UNICOM2 }}
+      env:
+        user: ${{secrets.unicom_user2}}
+        password: ${{secrets.unicom_password2}}
+        appid: ${{secrets.unicom_appid}}
+      run: node index.js unicom --user=${user} --password=${password} --appid=${appid}
