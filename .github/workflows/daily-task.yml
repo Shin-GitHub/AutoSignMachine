@@ -19,7 +19,7 @@ jobs:
       ENABLE_BILIBILI: ${{secrets.ENABLE_BILIBILI}}
       ENABLE_IQIYI: ${{secrets.ENABLE_IQIYI}}
       ENABLE_UNICOM: ${{secrets.ENABLE_UNICOM}}
-	  ENABLE_UNICOM2: ${{secrets.ENABLE_UNICOM2}}
+      ENABLE_UNICOM2: ${{secrets.ENABLE_UNICOM2}}
     
     runs-on: ubuntu-latest
 
