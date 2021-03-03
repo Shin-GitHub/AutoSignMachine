@@ -19,7 +19,6 @@ jobs:
       ENABLE_BILIBILI: ${{secrets.ENABLE_BILIBILI}}
       ENABLE_IQIYI: ${{secrets.ENABLE_IQIYI}}
       ENABLE_UNICOM: ${{secrets.ENABLE_UNICOM}}
-      ENABLE_UNICOM2: ${{secrets.ENABLE_UNICOM2}}
     
     runs-on: ubuntu-latest
 
@@ -86,12 +85,3 @@ jobs:
         password: ${{secrets.unicom_password}}
         appid: ${{secrets.unicom_appid}}
       run: node index.js unicom --user=${user} --password=${password} --appid=${appid}
-       
-    # 运行 unicom2 签到任务
-    - name: Run unicom daily task
-      if: ${{ env.ENABLE_UNICOM2 }}
-      env:
-        user2: ${{secrets.unicom_user2}}
-        password2: ${{secrets.unicom_password2}}
-        appid2: ${{secrets.unicom_appid2}}
-      run: node index.js unicom --user=${user2} --password=${password2} --appid=${appid2}
