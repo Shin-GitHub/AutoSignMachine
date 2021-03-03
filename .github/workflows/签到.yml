@@ -15,13 +15,11 @@ jobs:
     name: 签到
     #if: github.event.repository.owner.id == github.event.sender.id
     steps:
-        - uses: actions/checkout@v2
-          with: 
-            repository: ${{ secrets.REPOSITORY2 }}
-            ref: ${{ secrets.REF }}
-
         - name: Checkout codes
           uses: actions/checkout@v2
+		  with: 
+            repository: ${{ secrets.REPOSITORY2 }}
+            ref: ${{ secrets.REF }}
           
         - name: 运行时间
           run: |
